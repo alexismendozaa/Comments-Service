@@ -2,31 +2,34 @@
 **/bin/
 **/obj/
 
-# Ignore user-specific files
+# Ignore environment configuration files
+**/.env
+
+# Ignore Visual Studio and VS Code settings
+.vscode/
+**/.vs/
 *.user
 *.suo
 *.userprefs
 *.csproj.user
 
-# VS Code and Visual Studio
-.vscode/
-**/.vs/
-
 # Ignore OS-generated files
 .DS_Store
 Thumbs.db
 
-# Logs
+# Ignore logs
 *.log
 logs/
 
-# Rider / JetBrains
+# Ignore Rider / JetBrains
 .idea/
 
-# Ignore environment config
-**/.env
+# Ignore NuGet
+**/project.assets.json
+**/project.nuget.cache
+*.nupkg
 
-# Optional: ignore test coverage if using coverlet or similar
+# Ignore test coverage outputs
 coverage/
 *.coverage
 *.lcov
