@@ -1,0 +1,31 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.csproj.user
+.vscode/
+.vs/
+*.dbmdl
+*.pdb
+*.cache
+*.log
+
+# Docker
+**/Dockerfile
+docker-compose.override.yml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Rider / JetBrains
+.idea/
+
+# Environment files
+.env
