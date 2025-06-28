@@ -17,7 +17,7 @@ on:
       - 'list-comment-ms/list-comment-ms/**'
 
 env:
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_NAME }}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
 jobs:
