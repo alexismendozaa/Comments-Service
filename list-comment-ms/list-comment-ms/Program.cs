@@ -24,7 +24,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSingleton<DatabaseConfig>();
 
-// Configurar autenticación JWT
+// Configurar autenticaciï¿½n JWT
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -71,7 +71,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Configuración del contenedor de dependencias
+// Configuraciï¿½n del contenedor de dependencias
 var app = builder.Build();
 
 // Middleware para agregar "Bearer" si falta en el header Authorization
@@ -99,5 +99,5 @@ app.UseCors("AllowAllOrigins");
 
 app.MapControllers();
 
-// Configuración del puerto
-app.Run("http://localhost:3022");
+// Configuraciï¿½n del puerto
+app.Run("http://0.0.0.0:3022");
