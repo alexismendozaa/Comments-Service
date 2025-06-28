@@ -31,15 +31,15 @@ jobs:
           - delete-comment-ms
           - edit-comment-ms
           - list-comment-ms
-    if: |
-      contains(github.event.head_commit.message, matrix.service) ||
-      github.event_name == 'pull_request' && (
-        contains(github.event.pull_request.changed_files, format('{0}/{1}/', matrix.service, matrix.service))
-      )
     steps:
       - uses: actions/checkout@v4
+      - name: Should Run Test?
+        id: should_run
+        run: echo "should_run=$(echo '${{ github.event.head_commit.message }}' | grep -q '${{ matrix.service }}' && echo true || echo false)" >> $GITHUB_OUTPUT
+        shell: bash
       - name: Run static check
-        run: bash ${matrix.service}/${matrix.service}/tests/check-static.sh
+        if: steps.should_run.outputs.should_run == 'true' || github.event_name == 'pull_request'
+        run: bash ${{ matrix.service }}/${{ matrix.service }}/tests/check-static.sh
 
   #### 2. BUILD ####
   build:
@@ -52,20 +52,21 @@ jobs:
           - delete-comment-ms
           - edit-comment-ms
           - list-comment-ms
-    if: |
-      contains(github.event.head_commit.message, matrix.service) ||
-      github.event_name == 'pull_request' && (
-        contains(github.event.pull_request.changed_files, format('{0}/{1}/', matrix.service, matrix.service))
-      )
     steps:
       - uses: actions/checkout@v4
+      - name: Should Run Build?
+        id: should_run
+        run: echo "should_run=$(echo '${{ github.event.head_commit.message }}' | grep -q '${{ matrix.service }}' && echo true || echo false)" >> $GITHUB_OUTPUT
+        shell: bash
       - name: Build Docker image
+        if: steps.should_run.outputs.should_run == 'true' || github.event_name == 'pull_request'
         run: |
           docker build -t alexismendozaa/${{ matrix.service }}:latest ./${{ matrix.service }}/${{ matrix.service }}
-
       - name: Save Docker image artifact
+        if: steps.should_run.outputs.should_run == 'true' || github.event_name == 'pull_request'
         run: docker save alexismendozaa/${{ matrix.service }}:latest -o ${{ matrix.service }}.tar
       - uses: actions/upload-artifact@v4
+        if: steps.should_run.outputs.should_run == 'true' || github.event_name == 'pull_request'
         with:
           name: ${{ matrix.service }}-image
           path: ${{ matrix.service }}.tar
@@ -81,27 +82,30 @@ jobs:
           - delete-comment-ms
           - edit-comment-ms
           - list-comment-ms
-    if: |
-      contains(github.event.head_commit.message, matrix.service) ||
-      github.event_name == 'pull_request' && (
-        contains(github.event.pull_request.changed_files, format('{0}/{1}/', matrix.service, matrix.service))
-      )
     steps:
       - uses: actions/checkout@v4
+      - name: Should Run Push?
+        id: should_run
+        run: echo "should_run=$(echo '${{ github.event.head_commit.message }}' | grep -q '${{ matrix.service }}' && echo true || echo false)" >> $GITHUB_OUTPUT
+        shell: bash
       - uses: actions/download-artifact@v4
+        if: steps.should_run.outputs.should_run == 'true' || github.event_name == 'pull_request'
         with:
           name: ${{ matrix.service }}-image
 
       - name: Load Docker image
+        if: steps.should_run.outputs.should_run == 'true' || github.event_name == 'pull_request'
         run: docker load -i ${{ matrix.service }}.tar
 
       - name: Login to Docker Hub
+        if: steps.should_run.outputs.should_run == 'true' || github.event_name == 'pull_request'
         uses: docker/login-action@v3
         with:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ env.DOCKERHUB_TOKEN }}
 
       - name: Push Docker image
+        if: steps.should_run.outputs.should_run == 'true' || github.event_name == 'pull_request'
         run: docker push alexismendozaa/${{ matrix.service }}:latest
 
   #### 4. DEPLOY ####
@@ -115,13 +119,13 @@ jobs:
           - delete-comment-ms
           - edit-comment-ms
           - list-comment-ms
-    if: |
-      contains(github.event.head_commit.message, matrix.service) ||
-      github.event_name == 'pull_request' && (
-        contains(github.event.pull_request.changed_files, format('{0}/{1}/', matrix.service, matrix.service))
-      )
     steps:
+      - name: Should Run Deploy?
+        id: should_run
+        run: echo "should_run=$(echo '${{ github.event.head_commit.message }}' | grep -q '${{ matrix.service }}' && echo true || echo false)" >> $GITHUB_OUTPUT
+        shell: bash
       - name: Seleccionar ambiente y SSH key
+        if: steps.should_run.outputs.should_run == 'true' || github.event_name == 'pull_request'
         id: select-env
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/test" ]]; then
@@ -133,6 +137,7 @@ jobs:
           fi
 
       - name: Deploy updated microservice to EC2 via SSH
+        if: steps.should_run.outputs.should_run == 'true' || github.event_name == 'pull_request'
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ steps.select-env.outputs.host }}
