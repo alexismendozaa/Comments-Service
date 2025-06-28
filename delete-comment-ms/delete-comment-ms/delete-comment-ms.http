@@ -1,0 +1,6 @@
+@delete_comment_ms_HostAddress = http://localhost:5029
+
+GET {{delete_comment_ms_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
