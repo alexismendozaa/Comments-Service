@@ -13,11 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 DotEnv.Load();
 
-// Configuración de PostgreSQL usando Entity Framework
+// Configuraciï¿½n de PostgreSQL usando Entity Framework
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql($"Host={Environment.GetEnvironmentVariable("DB_HOST")};Port={Environment.GetEnvironmentVariable("DB_PORT")};Username={Environment.GetEnvironmentVariable("DB_USER")};Password={Environment.GetEnvironmentVariable("DB_PASSWORD")};Database={Environment.GetEnvironmentVariable("DB_NAME")}"));
 
-// Configuración de JWT para autenticación
+// Configuraciï¿½n de JWT para autenticaciï¿½n
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -57,7 +57,7 @@ builder.Services.AddCors(options =>
 // Agregar servicios para controlar la API
 builder.Services.AddControllers();
 
-// Configuración de Swagger para documentación de la API
+// Configuraciï¿½n de Swagger para documentaciï¿½n de la API
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -88,10 +88,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// Construir la aplicación
+// Construir la aplicaciï¿½n
 var app = builder.Build();
 
-// Configuración de Swagger UI
+// Configuraciï¿½n de Swagger UI
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -106,10 +106,10 @@ app.UseSwaggerUI(c =>
 
 app.UseCors("AllowAll");  // Activar CORS
 
-app.UseAuthentication();  // Autenticación JWT
-app.UseAuthorization();   // Autorización
+app.UseAuthentication();  // Autenticaciï¿½n JWT
+app.UseAuthorization();   // Autorizaciï¿½n
 
 app.MapControllers();  // Mapeo de controladores
 
-// Ejecutar la aplicación en el puerto configurado
-app.Run($"http://localhost:{Environment.GetEnvironmentVariable("PORT") ?? "3020"}");
+// Ejecutar la aplicaciï¿½n en el puerto configurado
+app.Run("http://0.0.0.0:3020");
