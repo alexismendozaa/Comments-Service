@@ -212,6 +212,7 @@ jobs:
           key: ${{ steps.select-env.outputs.key }}
           port: 22
           script: |
+            # Solo borrar el contenedor viejo si existe, ignora error si no existe
             docker rm -f ${{ matrix.service }} || true
 
             export DB_COMMENTS='${{ secrets.DB_COMMENTS }}'
@@ -281,4 +282,3 @@ jobs:
                 alexismendozaa/list-comment-ms:latest
             fi
 
-            docker image prune -af
