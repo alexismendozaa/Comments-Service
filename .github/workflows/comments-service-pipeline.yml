@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # <--- Aquí se asegura todo el historial
+          fetch-depth: 0
 
       - name: Detect changes for service
         id: changes
@@ -193,10 +193,14 @@ jobs:
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/test" ]]; then
             echo "host=${{ secrets.EC2_QA }}" >> $GITHUB_OUTPUT
-            echo "key=${{ secrets.SSH_KEY_QA }}" >> $GITHUB_OUTPUT
+            echo "key<<EOF" >> $GITHUB_OUTPUT
+            echo "${{ secrets.SSH_KEY_QA }}" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
           else
             echo "host=${{ secrets.EC2_PROD }}" >> $GITHUB_OUTPUT
-            echo "key=${{ secrets.SSH_KEY_PROD }}" >> $GITHUB_OUTPUT
+            echo "key<<EOF" >> $GITHUB_OUTPUT
+            echo "${{ secrets.SSH_KEY_PROD }}" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
           fi
 
       - name: Deploy updated microservice to EC2 via SSH
