@@ -12,7 +12,7 @@ This service lists comments with optional filters and pagination. It connects to
 - PostgreSQL + Dapper integration
 - Docker-ready and .env based config
 
-## 📦 Project Structure
+## 📦 Project Structure 
 
 list-comment-ms/
 └── list-comment-ms/

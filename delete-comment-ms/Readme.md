@@ -12,7 +12,7 @@ This microservice handles the deletion of comments by ID. It's optimized for sec
 - Lightweight container setup
 - Plug-and-play with docker-compose
 
-## 📦 Project Structure
+## 📦 Project Structure 
 
 delete-comment-ms/
 └── delete-comment-ms/
