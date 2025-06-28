@@ -33,10 +33,13 @@ jobs:
           - list-comment-ms
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # <--- Aquí se asegura todo el historial
 
       - name: Detect changes for service
         id: changes
         run: |
+          git fetch --prune --unshallow || git fetch --all
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             git fetch origin ${{ github.base_ref }}
             CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep "^${{ matrix.service }}/${{ matrix.service }}/" || true)
@@ -66,10 +69,13 @@ jobs:
           - list-comment-ms
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Detect changes for service
         id: changes
         run: |
+          git fetch --prune --unshallow || git fetch --all
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             git fetch origin ${{ github.base_ref }}
             CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep "^${{ matrix.service }}/${{ matrix.service }}/" || true)
@@ -110,10 +116,13 @@ jobs:
           - list-comment-ms
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Detect changes for service
         id: changes
         run: |
+          git fetch --prune --unshallow || git fetch --all
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             git fetch origin ${{ github.base_ref }}
             CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep "^${{ matrix.service }}/${{ matrix.service }}/" || true)
@@ -159,10 +168,13 @@ jobs:
           - list-comment-ms
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Detect changes for service
         id: changes
         run: |
+          git fetch --prune --unshallow || git fetch --all
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             git fetch origin ${{ github.base_ref }}
             CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep "^${{ matrix.service }}/${{ matrix.service }}/" || true)
