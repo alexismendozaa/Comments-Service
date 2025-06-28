@@ -1,22 +1,18 @@
-# .NET
-bin/
-obj/
+# Ignore build output everywhere
+**/bin/
+**/obj/
+
+# Ignore user-specific files
 *.user
 *.suo
 *.userprefs
 *.csproj.user
+
+# VS Code and Visual Studio
 .vscode/
-.vs/
-*.dbmdl
-*.pdb
-*.cache
-*.log
+**/.vs/
 
-# Docker
-**/Dockerfile
-docker-compose.override.yml
-
-# OS files
+# Ignore OS-generated files
 .DS_Store
 Thumbs.db
 
@@ -27,5 +23,10 @@ logs/
 # Rider / JetBrains
 .idea/
 
-# Environment files
-.env
+# Ignore environment config
+**/.env
+
+# Optional: ignore test coverage if using coverlet or similar
+coverage/
+*.coverage
+*.lcov
