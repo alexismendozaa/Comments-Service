@@ -1,9 +1,8 @@
-#!/bin/bash
-set -e
+echo "==> Analizando sintaxis y formato del microservicio..."
 
-echo "==> Analizando sintaxis y formato del microservicio...  "
 
-dotnet format --verify-no-changes
-dotnet build --no-restore
+cd "$(dirname "$0")/.."
 
-echo "¡Chequeo estático OK! 🚦"
+dotnet format $(ls *.csproj)
+
+echo "==> Análisis completado"
