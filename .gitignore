@@ -1,0 +1,42 @@
+########################################
+# 👷 Build and output
+########################################
+**/bin/
+**/obj/
+**/project.assets.json
+**/project.nuget.cache
+*.pdb
+*.dll
+*.exe
+*.nupkg
+
+########################################
+# 👤 User and IDE config
+########################################
+.vscode/
+**/.vs/
+*.suo
+*.user
+*.userprefs
+*.csproj.user
+
+########################################
+# 🔒 Secrets and local environment
+########################################
+**/.env
+**/appsettings.Development.json
+**/appsettings.Local.json
+
+########################################
+# 🧹 Logs and temp
+########################################
+*.log
+*.tmp
+logs/
+
+########################################
+# 🖥️ OS and editor garbage
+########################################
+.DS_Store
+Thumbs.db
+.idea/
