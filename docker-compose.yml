@@ -1,0 +1,40 @@
+services:
+  add-comment-ms:
+    build:
+      context: ./add-comment-ms/add-comment-ms
+    image: alexismendozaa/add-comment-ms:latest
+    ports:
+      - "5019:3019"
+    networks:
+      - comments_network
+
+  edit-comment-ms:
+    build:
+      context: ./edit-comment-ms/edit-comment-ms
+    image: alexismendozaa/edit-comment-ms:latest
+    ports:
+      - "5020:3020"
+    networks:
+      - comments_network
+
+  delete-comment-ms:
+    build:
+      context: ./delete-comment-ms/delete-comment-ms
+    image: alexismendozaa/delete-comment-ms:latest
+    ports:
+      - "5021:3021"
+    networks:
+      - comments_network
+
+  list-comment-ms:
+    build:
+      context: ./list-comment-ms/list-comment-ms
+    image: alexismendozaa/list-comment-ms:latest
+    ports:
+      - "5022:3022"
+    networks:
+      - comments_network
+
+networks:
+  comments_network:
+    driver: bridge
