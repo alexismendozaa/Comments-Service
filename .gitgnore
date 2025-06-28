@@ -1,35 +1,36 @@
-# Ignore build output everywhere
+# Build output (recursively ignore from all services)
 **/bin/
 **/obj/
 
-# Ignore environment configuration files
-**/.env
+# User-specific files
+**/*.user
+**/*.suo
+**/*.userprefs
+**/*.csproj.user
 
-# Ignore Visual Studio and VS Code settings
+# IDE folders
 .vscode/
 **/.vs/
-*.user
-*.suo
-*.userprefs
-*.csproj.user
 
-# Ignore OS-generated files
+# Environment and secrets
+**/.env
+**/appsettings.Development.json
+**/appsettings.Local.json
+
+# Logs and temp files
+*.log
+logs/
+*.tmp
+
+# OS-generated
 .DS_Store
 Thumbs.db
 
-# Ignore logs
-*.log
-logs/
-
-# Ignore Rider / JetBrains
-.idea/
-
-# Ignore NuGet
+# NuGet
 **/project.assets.json
 **/project.nuget.cache
 *.nupkg
 
-# Ignore test coverage outputs
+# Others
+.idea/
 coverage/
-*.coverage
-*.lcov
