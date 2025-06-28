@@ -224,6 +224,7 @@ jobs:
             export DB_USER='${{ secrets.DB_USER }}'
             export DB_USERS='${{ secrets.DB_USERS }}'
             export JWT_SECRET='${{ secrets.JWT_SECRET }}'
+            export DB_CONNECTION_STRING='${{ secrets.DB_CONNECTION_STRING}}'
 
             if [ "${{ matrix.service }}" = "add-comment-ms" ]; then
               docker run -d --name add-comment-ms \
@@ -251,6 +252,7 @@ jobs:
                 -e DB_USER=$DB_USER \
                 -e DB_USERS=$DB_USERS \
                 -e JWT_SECRET=$JWT_SECRET \
+                -e DB_CONNECTION_STRING=$DB_CONNECTION_STRING \
                 alexismendozaa/delete-comment-ms:latest
 
             elif [ "${{ matrix.service }}" = "edit-comment-ms" ]; then

@@ -1,4 +1,4 @@
-echo "==> Analizando sintaxis y formato del microservicio... "
+echo "==> Analizando sintaxis y formato del microservicio..."
 
 
 cd "$(dirname "$0")/.."
