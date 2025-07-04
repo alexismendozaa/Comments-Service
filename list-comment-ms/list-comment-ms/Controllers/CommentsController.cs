@@ -49,7 +49,7 @@ public class CommentsController : ControllerBase
                     id AS Id, 
                     username AS Username, 
                     email AS Email, 
-                    profileimage AS ProfileImage
+                    ""profileImage"" AS ProfileImage
                 FROM ""Users"" 
                 WHERE id = ANY(@UserIds)";
             var users = await usersConn.QueryAsync<UserDto>(usersQuery, new { UserIds = userIds });
