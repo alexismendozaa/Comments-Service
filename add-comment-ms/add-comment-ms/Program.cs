@@ -17,7 +17,7 @@ public class Program
         // Configura la URL antes de construir la app
         builder.WebHost.UseUrls("http://0.0.0.0:3019");
 
-        // Configuración de CORS
+        // Configuraciï¿½n de CORS
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowAll", policy =>
@@ -26,14 +26,14 @@ public class Program
             });
         });
 
-        // Configuración de la base de datos
+        // Configuraciï¿½n de la base de datos
         builder.Services.AddScoped<NpgsqlConnection>(sp =>
         {
             var connString = $"Host={Env.GetString("DB_HOST")};Port={Env.GetString("DB_PORT")};Username={Env.GetString("DB_USER")};Password={Env.GetString("DB_PASSWORD")};Database={Env.GetString("DB_NAME")};SSL Mode={(Env.GetString("DB_SSL") == "true" ? "Require" : "Disable")};";
             return new NpgsqlConnection(connString);
         });
 
-        // Configuración de JWT
+        // Configuraciï¿½n de JWT
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -41,7 +41,7 @@ public class Program
                 {
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    ValidateLifetime = true,
+                    ValidateLifetime = false,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Env.GetString("JWT_SECRET")))
                 };
             });
@@ -52,7 +52,7 @@ public class Program
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Comments API", Version = "v1" });
 
-            // Configuración de seguridad para JWT sin "Bearer"
+            // Configuraciï¿½n de seguridad para JWT sin "Bearer"
             c.AddSecurityDefinition("JWT", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
@@ -106,7 +106,7 @@ public class Program
         // Configurar CORS
         app.UseCors("AllowAll");
 
-        // Autenticación y autorización
+        // Autenticaciï¿½n y autorizaciï¿½n
         app.UseAuthentication();
         app.UseAuthorization();
 

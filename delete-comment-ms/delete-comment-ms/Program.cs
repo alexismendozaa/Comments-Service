@@ -6,11 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer; // Asegúrate de tener este using
+using Microsoft.AspNetCore.Authentication.JwtBearer; // Asegï¿½rate de tener este using
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-// Asegúrate de instalar el paquete necesario ejecutando en la terminal:
+// Asegï¿½rate de instalar el paquete necesario ejecutando en la terminal:
 // dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,14 +18,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Cargar variables del archivo .env
 Env.Load();
 
-// Configurar la conexión a la base de datos
+// Configurar la conexiï¿½n a la base de datos
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
 
 // Registrar servicios
 builder.Services.AddScoped<CommentService>();
 
-// Configurar autenticación JWT
+// Configurar autenticaciï¿½n JWT
 builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -33,7 +33,7 @@ builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer
         {
             ValidateIssuer = false,
             ValidateAudience = false,
-            ValidateLifetime = true,
+            ValidateLifetime = false,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET") ?? "clave-secreta-demo"))
@@ -68,7 +68,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Habilitar CORS para permitir todos los orígenes
+// Habilitar CORS para permitir todos los orï¿½genes
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -81,7 +81,7 @@ var app = builder.Build();
 
 app.Urls.Add("http://*:3021");
 
-// Middleware para anteponer "Bearer " si no está presente
+// Middleware para anteponer "Bearer " si no estï¿½ presente
 app.Use(async (context, next) =>
 {
     var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
@@ -101,7 +101,7 @@ app.UseSwaggerUI(c =>
 
 app.UseCors("AllowAll");
 
-// Habilitar autenticación y autorización
+// Habilitar autenticaciï¿½n y autorizaciï¿½n
 app.UseAuthentication();
 app.UseAuthorization();
 
