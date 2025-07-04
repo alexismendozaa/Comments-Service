@@ -26,8 +26,8 @@ public class CommentsController : ControllerBase
 
         var commentsQuery = @"
             SELECT 
-                id, 
-                text, 
+                id AS Id, 
+                text AS Text, 
                 created_at AS CreatedAt, 
                 user_id AS UserId 
             FROM comments 
@@ -48,7 +48,8 @@ public class CommentsController : ControllerBase
                 SELECT 
                     id AS Id, 
                     username AS Username, 
-                    email AS Email 
+                    email AS Email, 
+                    profileimage AS ProfileImage
                 FROM ""Users"" 
                 WHERE id = ANY(@UserIds)";
             var users = await usersConn.QueryAsync<UserDto>(usersQuery, new { UserIds = userIds });
@@ -61,10 +62,16 @@ public class CommentsController : ControllerBase
             usersDict.TryGetValue(c.UserId, out var user);
             return new
             {
-                c.Text,
-                CreatedAt = c.CreatedAt,
-                Username = user?.Username,
-                Email = user?.Email
+                id = c.Id,
+                text = c.Text,
+                createdAt = c.CreatedAt,
+                user = user == null ? null : new
+                {
+                    id = user.Id,
+                    username = user.Username,
+                    email = user.Email,
+                    profileImage = user.ProfileImage
+                }
             };
         });
 
@@ -85,5 +92,6 @@ public class CommentsController : ControllerBase
         public Guid Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
+        public string ProfileImage { get; set; }
     }
 }
