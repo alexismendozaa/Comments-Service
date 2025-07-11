@@ -84,8 +84,10 @@ app.Use(async (context, next) =>
     }
     await next();
 });
+app.MapGet("/health", () => Results.Ok("ok"))
+           .AllowAnonymous();
 
-// Configurar middlewares
+           
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

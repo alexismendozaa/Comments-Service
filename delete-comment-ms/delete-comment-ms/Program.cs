@@ -92,6 +92,9 @@ app.Use(async (context, next) =>
     await next();
 });
 
+app.MapGet("/health", () => Results.Ok("ok"))
+.AllowAnonymous();
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

@@ -9,15 +9,15 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        // Cargar el archivo .env
+       
         Env.Load();
 
         var builder = WebApplication.CreateBuilder(args);
 
-        // Configura la URL antes de construir la app
+        
         builder.WebHost.UseUrls("http://0.0.0.0:3019");
 
-        // Configuraci�n de CORS
+        
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowAll", policy =>
@@ -26,14 +26,14 @@ public class Program
             });
         });
 
-        // Configuraci�n de la base de datos
+        
         builder.Services.AddScoped<NpgsqlConnection>(sp =>
         {
             var connString = $"Host={Env.GetString("DB_HOST")};Port={Env.GetString("DB_PORT")};Username={Env.GetString("DB_USER")};Password={Env.GetString("DB_PASSWORD")};Database={Env.GetString("DB_NAME")};SSL Mode={(Env.GetString("DB_SSL") == "true" ? "Require" : "Disable")};";
             return new NpgsqlConnection(connString);
         });
 
-        // Configuraci�n de JWT
+        
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -52,7 +52,7 @@ public class Program
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Comments API", Version = "v1" });
 
-            // Configuraci�n de seguridad para JWT sin "Bearer"
+            
             c.AddSecurityDefinition("JWT", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
@@ -81,7 +81,7 @@ public class Program
 
         var app = builder.Build();
 
-        // Middleware para agregar "Bearer " si falta en el header Authorization
+        
         app.Use(async (context, next) =>
         {
             if (context.Request.Headers.ContainsKey("Authorization"))
@@ -95,7 +95,11 @@ public class Program
             await next();
         });
 
-        // Habilitar Swagger
+        
+        app.MapGet("/health", () => Results.Ok("ok"))
+           .AllowAnonymous();
+
+        
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
@@ -103,10 +107,10 @@ public class Program
             c.RoutePrefix = "api-docs-add-comment";
         });
 
-        // Configurar CORS
+        
         app.UseCors("AllowAll");
 
-        // Autenticaci�n y autorizaci�n
+       
         app.UseAuthentication();
         app.UseAuthorization();
 

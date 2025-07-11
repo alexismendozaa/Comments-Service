@@ -97,6 +97,9 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+app.MapGet("/health", () => Results.Ok("ok"))
+.AllowAnonymous();
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
